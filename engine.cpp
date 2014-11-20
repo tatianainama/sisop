@@ -38,17 +38,18 @@ Engine::Engine(){
 
     done = false;
 
-	std::cout << "Engine Constructor" << " \n";
+	  std::cout << "Engine Constructor" << " \n";
+	  initSDL();
     bar1 = new Floor(0,50,1);
     
-    s2 = new Mario();SDL_Surface *s;
-    s2->position(  (GAME_W /2)  + 100 ,GAME_H-73);
+    s2 = new Mario();
+    s2->position(  (GAME_W /2)  + 100 ,GAME_H-MARIO_Y);
     s2->setMode(2);
     //s2.setMode(2);
 
     s1 = new Mario();
     
-    s1->position( (GAME_W / 2)- 100 , GAME_H-73);
+    s1->position( (GAME_W / 2)- 100 , GAME_H-MARIO_Y);
     //s1.setMode(1);
     
 
@@ -94,6 +95,8 @@ int Engine::initSDL(){
         return 1;
 
     }
+		printf( "INIT OK\n" );
+
     // make sure SDL cleans up before exit
     atexit(SDL_Quit);
     // create a new window
@@ -126,7 +129,7 @@ void Engine::update(){
         if(!collided){
             //std::cout << "ELSEClimbing en true??" << s1.climbing << "\n";
             this->s1->climbing= false;
-            //s1.onGround = false;
+            //s1->onGround = false;
 
             /*std::cout << "stairs width " << stairs.rect[1].w << "\n";
             std::cout << "stairs height " << stairs.rect[1].h << "\n";*/
@@ -453,7 +456,7 @@ void Engine::afterUpdate(){
                 std::cout << "climb" << s1.climbing << "\n";
                 std::cout << "onGround" << s1.onGround << "\n";
                 std::cout << "end col" << "\n";*/
-                s1->rect.y = bar1->rect[i].y-28;
+                s1->rect.y = bar1->rect[i].y-s1->rect.h;
                 s1->speedY = 0.0;
                 s1->onGround = true;
             }
@@ -512,7 +515,7 @@ void Engine::afterUpdate(){
             }
 
              if (check_collision(bonus->rect[j],s1->rect)) {
-                s1->position(GAME_W / 2- 100 , GAME_H-40);
+                s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
              }
         }
     }

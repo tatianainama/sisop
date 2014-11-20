@@ -7,8 +7,10 @@ int main(int argc, char ** argv){
 	std::string remoteCommand;
 	std::istringstream temp;
 	int command;
-	//eng.initSDL();
+	printf( "aaa\n" );
 
+	//eng.initSDL();
+printf( "bbb\n" );
 	Network n;
 	int sockfd = n.nsocket();
 

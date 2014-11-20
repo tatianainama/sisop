@@ -28,6 +28,8 @@
 #include "actors/sidebar.h"
 #include "actors/monkey.h"
 
+#define MARIO_Y 40
+
 
 
 class Engine {

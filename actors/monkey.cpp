@@ -38,7 +38,7 @@ void Monkey::jump(){
     if(onGround && !climbing)
     {
         std::cout << "entra al if de onGround en jump" << "\n";
-        this->speedY = -10;
+        this->speedY = -5;
         onGround = false;
     }
 

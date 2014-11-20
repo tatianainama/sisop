@@ -8,21 +8,13 @@
 #include "mario.h"
 #include <iostream>
 #include <cstdio>
-SDL_Surface *s;
 
 
 
 Mario::Mario(void): IActor(){
-	
-
-
-
+			
     //printf("construct");
-    this->img = IMG_Load(_MARIO1);
-    if (!img) {
-        printf("Unable to load bitmap: %s\n", SDL_GetError());
-        //return 1;
-    }
+    
     this->speed = 10;
 
     this->onGround = true;
@@ -33,19 +25,28 @@ Mario::Mario(void): IActor(){
     this->grav = 1;
     this->speedY = 0;
     //SDL_Rect dstrect;
-
-		SDL_SetColorKey( this->img, SDL_SRCCOLORKEY, SDL_MapRGB(this->img->format, 0, 255, 0));
+		
+		this->img = loadImage(_MARIO1);		
 		this->source.w = this->img->w / MARIO_FRAMES;
-		this->source.h = 41;
+		this->source.h = this->img->h;
 		this->source.x = 0;
 		this->source.y = 0;
     this->rect.w = this->source.w;
     this->rect.h = this->source.h;
-    
-    
-
 };
 
+SDL_Surface* Mario::loadImage(const char* path){
+	SDL_Surface*opt, *img;
+	img = IMG_Load(path);
+  if (!img) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+        return NULL;
+  }
+	opt = SDL_DisplayFormat(img);
+	SDL_FreeSurface(img);
+	SDL_SetColorKey( opt, SDL_SRCCOLORKEY, SDL_MapRGB(opt->format, 0, 255, 0));
+	return opt;
+}
 
 
 
@@ -163,17 +164,11 @@ void Mario::setImage(const char * str){
 };
 
 void Mario::setMode(int mode){
-	if(mode==1){
-		this->img = IMG_Load(_MARIO1);
-		if (!img) 
-		    printf("Unable to load bitmap: %s\n", SDL_GetError());
-    }
-	if(mode==2){
-		this->img = IMG_Load(_MARIO2);
-		if (!img) 
-		    printf("Unable to load bitmap: %s\n", SDL_GetError());
-    }
-};
+	if(mode==1)
+		this->img = loadImage(_MARIO1);
+	if(mode==2)
+		this->img = loadImage(_MARIO2);
+}
 
 int Mario::getX(){
     return this->rect.x;

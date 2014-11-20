@@ -31,7 +31,7 @@ public:
 
     Mario(void);
     void say(void);
-	
+		SDL_Surface* loadImage(const char*);
 		void setMode(int);
     void setImage(const char *);
     void moveLeft();
