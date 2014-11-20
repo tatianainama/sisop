@@ -8,6 +8,8 @@
 
 #define _MARIO1 "img/mario.png"
 #define _MARIO2 "img/mario2.png"
+#define _PAULINE "img/pauline_vector.png"
+
 #define MARIO_FRAMES 6
 
 extern int gNum;
@@ -17,6 +19,7 @@ class Mario : public IActor {
 
 public:
     int speed;
+    int cantPau=0;
     SDL_Rect source ,rect;
     SDL_Surface* img;
 
@@ -38,7 +41,9 @@ public:
     void moveRight();
     void moveUp();
     void moveDown();
-
+		
+		void newPauline();
+		int getPaulines();
     void position(int , int );
     void blit();
     void update();

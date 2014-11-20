@@ -29,6 +29,7 @@
 #include "actors/monkey.h"
 
 #define MARIO_Y 40
+#define WINNER 3
 
 
 
@@ -44,9 +45,8 @@ class Engine {
 		Stairs * stairs;
 		SideBar * sb;
 		Monkey * monkey;
-
+		int paulineCont = 0;
 		bool done;
-
 		Engine();
 		int run();
 		int initSDL();

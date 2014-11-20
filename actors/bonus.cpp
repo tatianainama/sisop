@@ -119,7 +119,7 @@ void Bonus::reset(int i){
 
 void Bonus::update(){
     
-    if(t.get_ticks() > 1200){
+    if(t.get_ticks() > 1500){
         //std::cout << "entra al if de bonus" << " \n";
 
         for(int i=0;i< Bonus::SHIPS_QTY;i++){            

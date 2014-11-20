@@ -168,6 +168,8 @@ void Mario::setMode(int mode){
 		this->img = loadImage(_MARIO1);
 	if(mode==2)
 		this->img = loadImage(_MARIO2);
+	if(mode==3)
+		this->img = loadImage(_PAULINE);
 }
 
 int Mario::getX(){
@@ -209,3 +211,12 @@ void Mario::updateState(std::string s){
     this->rect.x = px;
     this->rect.y = py;
 };
+
+void Mario::newPauline(){
+		this->cantPau++;
+}
+
+int Mario::getPaulines(){
+	return this->cantPau;
+}
+

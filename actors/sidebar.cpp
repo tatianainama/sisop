@@ -82,13 +82,13 @@ void SideBar::setName2(const char name[60]){
 void SideBar::setScore1(int scr){
 	this->Score1=scr;
     char temp[20];
-	sprintf(temp,"%06d",this->Score1);
+	sprintf(temp,"P: %02d",this->Score1);
 	this->text_score1 = TTF_RenderText_Blended(this->font,temp, fontColor1);
 };
 void SideBar::setScore2(int scr){
 	this->Score2=scr;
 	char temp[20];
-	sprintf(temp,"%06d",this->Score2);
+	sprintf(temp,"P: %02d",this->Score2);
 	this->text_score2 = TTF_RenderText_Blended(this->font,temp, fontColor2);
 };
 
@@ -153,6 +153,7 @@ void SideBar::blit(){
 	SDL_BlitSurface(this->text_score1, NULL, screen, &this->rectScore1);
 	SDL_BlitSurface(this->text_score2, NULL, screen, &this->rectScore2);
 
+/*
 	SDL_BlitSurface(this->ship1, NULL, screen, &this->rectLife1);
 	if (this->Life1>3 || this->Life1 == 0){
 	SDL_BlitSurface(this->text_life1, NULL, screen, &this->rectLife1);
@@ -186,7 +187,7 @@ void SideBar::blit(){
         }
 
     }
-
+*/
 
 };
 

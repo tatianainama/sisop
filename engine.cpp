@@ -55,8 +55,8 @@ Engine::Engine(){
 
     pauline = new Mario();
     pauline->position( GAME_W / 2 +10, 20);
-    pauline->setImage("img/pauline.bmp");
-
+    pauline->setMode(3);
+		
     bonus = new Bonus(GAME_W /2,112);
     
     sb = new SideBar();
@@ -76,6 +76,7 @@ Engine::Engine(){
     actors.push_back(bonus);
     actors.push_back(sb);
     actors.push_back(pauline);
+    
 };
 
 /*
@@ -110,7 +111,7 @@ int Engine::initSDL(){
 
 
 void Engine::update(){
-    int i,collided = 0;
+    int i,collided = 0, collided2 = 0;
 
     for(std::vector<IActor*>::iterator it = actors.begin(); it != actors.end(); ++it) {
             (*it)->update();
@@ -129,7 +130,28 @@ void Engine::update(){
         if(!collided){
             //std::cout << "ELSEClimbing en true??" << s1.climbing << "\n";
             this->s1->climbing= false;
-            //s1->onGround = false;
+            //s1.onGround = false;
+
+            /*std::cout << "stairs width " << stairs.rect[1].w << "\n";
+            std::cout << "stairs height " << stairs.rect[1].h << "\n";*/
+        }
+    }
+
+
+
+    if(this->s2->onGround && this->s2->movingUp){
+        for (i=0; i<Stairs::SHIPS_QTY; i++) {
+            if (check_collision(this->s2->rect,this->stairs->rect[i])) {
+                this->s2->climbing = true;
+                this->s2->moveUp();
+                collided2 = 1;
+                //std::cout << "Climbing en true??" << s2.climbing << "\n";
+            }
+        }
+        if(!collided2){
+            //std::cout << "ELSEClimbing en true??" << s2.climbing << "\n";
+            this->s2->climbing= false;
+            //s2.onGround = false;
 
             /*std::cout << "stairs width " << stairs.rect[1].w << "\n";
             std::cout << "stairs height " << stairs.rect[1].h << "\n";*/
@@ -164,10 +186,43 @@ void Engine::update(){
             }
         }
     }
+    
+    if(check_collision(this->s1->rect, this->pauline->rect)){
+				s1->newPauline();
+				sb->setScore1(s1->getPaulines());
+				s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
+		}
+		
+		if(s1->getPaulines() == WINNER){
+				done = true;
+		}
+	 if(this->s2->movingDown){
+        for (i=0; i<Stairs::SHIPS_QTY; i++) {
+            if (check_collision(this->s2->rect,this->stairs->rect[i])) {
+                //std::cout << "Colision con stair <<<<<<< " <<  " \n";
+                SDL_Rect * r;
+                r = this->bar1->getNextBaseFloor(stairs->rect[i].y+stairs->rect[i].h);
+                if(r != NULL){
+                //std::cout << "Recta a chequear <<<<<<< " << r->y << " \n";
+                    if(this->s2->rect.y+this->s2->rect.h >= r->y){
+                        //std::cout << "Entra al if " << "  \n"; 
+                        this->s2->onGround = false;
+                        this->s2->climbing = false;
+                    } else{
+                        this->s2->climbing = true;
+                    //S2.climbingDown = true;
+                        this->s2->moveDown();
+                    }
+                }
+                //std::cout << "Climbing en true??" << s2.climbing << "\n";
 
-
-
-
+            }else{
+                //std::cout << "Entra al else Climbing en true??" << s2.climbing << "\n";
+                //s2.climbing= false;
+                //s2.onGround = false;
+            }
+        }
+    }
 
 
 
@@ -204,61 +259,116 @@ int Engine::run(){
 };
 
 
-void Engine::applyCommand(std::string command){
+void Engine::applyCommand(std::string command,int player){
+    
     if(command == ""){
         return;
     }
-int com;
-std::istringstream ss(command);
-int collided,i;
-ss >> com;
-    switch(com){
+    int com;
+    std::istringstream ss(command);
+    int collided,i;
+    ss >> com;
 
-        case 1:
-            this->s1->movingRight = false;
-            this->s1->movingLeft = true;
-        break;
+    if(player ==1){
+        switch(com){
 
-        case 2:
-            this->s1->movingLeft = false;
-            this->s1->movingRight = true;
-        break;
+            case 1:
+                this->s1->movingRight = false;
+                this->s1->movingLeft = true;
+            break;
 
-        case 3:
-            /*this->s1->movingLeft = false;
-            this->s1->movingRight = true;*/
-            this->s1->movingDown = false;
-            this->s1->movingUp = true;
-        break;
-    
-        case 4:
-            this->s1->movingUp = false;        
-            this->s1->movingDown = true;
+            case 2:
+                this->s1->movingLeft = false;
+                this->s1->movingRight = true;
+            break;
 
-        break;
+            case 3:
+                /*this->s1->movingLeft = false;
+                this->s1->movingRight = true;*/
+                this->s1->movingDown = false;
+                this->s1->movingUp = true;
+            break;
+        
+            case 4:
+                this->s1->movingUp = false;        
+                this->s1->movingDown = true;
 
+            break;
 
-        case 5:
-            this->s1->jump();
-        break; 
+            case 5:
+                this->s1->jump();
+            break; 
 
-        case 7:
-            this->s1->movingUp = false;
-        break; 
+            case 7:
+                this->s1->movingUp = false;
+            break; 
 
-        case 6:
-            this->s1->movingDown = false;
-        break; 
+            case 6:
+                this->s1->movingDown = false;
+            break; 
 
-        case 8:
-            this->s1->movingLeft = false;
-        break; 
+            case 8:
+                this->s1->movingLeft = false;
+            break; 
 
-        case 9:
-            this->s1->movingRight = false;
-        break; 
+            case 9:
+                this->s1->movingRight = false;
+            break; 
+
+        }
+    }
+
+    if(player==2){
+
+        switch(com){
+
+            case 1:
+                this->s2->movingRight = false;
+                this->s2->movingLeft = true;
+            break;
+
+            case 2:
+                this->s2->movingLeft = false;
+                this->s2->movingRight = true;
+            break;
+
+            case 3:
+                /*this->s1->movingLeft = false;
+                this->s1->movingRight = true;*/
+                this->s2->movingDown = false;
+                this->s2->movingUp = true;
+            break;
+        
+            case 4:
+                this->s2->movingUp = false;        
+                this->s2->movingDown = true;
+
+            break;
+
+            case 5:
+                this->s2->jump();
+            break; 
+
+            case 7:
+                this->s2->movingUp = false;
+            break; 
+
+            case 6:
+                this->s2->movingDown = false;
+            break; 
+
+            case 8:
+                this->s2->movingLeft = false;
+            break; 
+
+            case 9:
+                this->s2->movingRight = false;
+            break; 
+
+        }
 
     }
+
 };
 
 void Engine::capturekeys(){
@@ -343,7 +453,7 @@ std::string command;
 
         }// end switch
     }
-    this->applyCommand(command);
+    this->applyCommand(command,1);
 
 
     /*Uint8 * keystate;
@@ -445,6 +555,8 @@ std::string command;
 
 
 void Engine::afterUpdate(){
+    int collided, collided2;
+
     if(!s1->climbing  && !s1->onGround){
         for (int i=0; i<Floor::SHIPS_QTY; i++) {
             if (check_collision(s1->rect,bar1->rect[i])) {
@@ -465,7 +577,7 @@ void Engine::afterUpdate(){
     }
 
     if(s1->climbing){
-        int collided = 0;
+        collided = 0;
         for (int i=0; i<Stairs::SHIPS_QTY; i++) {
             if (check_collision(s1->rect,stairs->rect[i])) {
                 //s1.climbing = true;
@@ -483,6 +595,53 @@ void Engine::afterUpdate(){
             //std::cout << "stairs height " << stairs.rect[1].h << "\n";
         }
     }
+
+
+
+
+    if(!s2->climbing  && !s2->onGround){
+        for (int i=0; i<Floor::SHIPS_QTY; i++) {
+            if (check_collision(s2->rect,bar1->rect[i])) {
+                //s2.climbing = true;
+                //S2.climbingDown = true;
+                //std::cout << "Climbing en true??" << s2.climbing << "\n";
+                //s2.moveDown();
+               /* std::cout << "entra en collision con bar" << i << " \n";
+                std::cout << "climb" << s2.climbing << "\n";
+                std::cout << "onGround" << s2.onGround << "\n";
+                std::cout << "end col" << "\n";*/
+                s2->rect.y = bar1->rect[i].y-28;
+                s2->speedY = 0.0;
+                s2->onGround = true;
+            }
+        }
+            
+    }
+
+    if(s2->climbing){
+        collided2 = 0;
+        for (int i=0; i<Stairs::SHIPS_QTY; i++) {
+            if (check_collision(s2->rect,stairs->rect[i])) {
+                //s2.climbing = true;
+                //s2.moveUp();
+                collided2 = 1;
+                break;
+                //std::cout << "Climbing en true??" << s2.climbing << "\n";
+            }
+        }
+        if(!collided2){
+            //std::cout << "ELSEClimbing en true??" << s2.climbing << "\n";
+            s2->climbing= false;
+            s2->onGround = false;
+            //std::cout << "stairs width " << stairs.rect[1].w << "\n";
+            //std::cout << "stairs height " << stairs.rect[1].h << "\n";
+        }
+    }
+
+
+
+
+
 
 
     for (int j=0; j<Bonus::SHIPS_QTY; j++) {        
@@ -514,9 +673,14 @@ void Engine::afterUpdate(){
                 }
             }
 
-             if (check_collision(bonus->rect[j],s1->rect)) {
-                s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
-             }
+            if (check_collision(bonus->rect[j],s1->rect)) {
+                //s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
+                
+            }
+			
+			if (check_collision(bonus->rect[j],s2->rect)) {
+                s2->position(GAME_W / 2+ 100 , GAME_H-MARIO_Y);
+            } 
         }
     }
 };
