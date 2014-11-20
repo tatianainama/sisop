@@ -4,6 +4,7 @@
 #define _STAIRS 1
 #include "../iactor.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include <stdlib.h>
 #include <sstream>
 #include <string>
@@ -39,6 +40,7 @@ public:
 
     std::string toString();
     void updateState(std::string s);
+    SDL_Surface * loadImage(const char*);
 };
 
 #endif

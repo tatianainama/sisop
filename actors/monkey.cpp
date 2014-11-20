@@ -14,11 +14,13 @@
 
 Monkey::Monkey(void): IActor(){
     //printf("construct");
-    this->bmp = SDL_LoadBMP("img/monkey.bmp");
+    /*this->bmp = SDL_LoadBMP("img/monkey.bmp");
     if (!bmp) {
         printf("Unable to load bitmap: %s\n", SDL_GetError());
         //return 1;
-    }
+    }*/
+    
+    this->bmp = loadImage("img/monkey.png");
     this->speed = 10;
 
     this->onGround = true;
@@ -165,3 +167,17 @@ void Monkey::updateState(std::string s){
     this->rect.x = px;
     this->rect.y = py;*/
 };
+
+SDL_Surface* Monkey::loadImage(const char* path){
+	SDL_Surface*opt, *img;
+	img = IMG_Load(path);
+  if (!img) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+        return NULL;
+  }
+	opt = SDL_DisplayFormat(img);
+	SDL_FreeSurface(img);
+	SDL_SetColorKey( opt, SDL_SRCCOLORKEY, SDL_MapRGB(opt->format, 0, 255, 0));
+	return opt;
+}
+

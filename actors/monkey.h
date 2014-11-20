@@ -1,6 +1,6 @@
 #include <SDL/SDL.h>
 #include <stdlib.h>
-
+#include <SDL/SDL_image.h>
 #include "../iactor.h"
 #include <sstream>
 #include <string>
@@ -41,7 +41,7 @@ public:
     int getX();
     int getY();
     void jump();
-
+		SDL_Surface * loadImage(const char*);
     std::string toString();
     void updateState(std::string);
 

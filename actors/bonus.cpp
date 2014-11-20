@@ -11,11 +11,13 @@
 
 Bonus::Bonus(int x, int y) {
 
-    this->bmp = SDL_LoadBMP("img/bonus.bmp");
+   /* this->bmp = SDL_LoadBMP("img/bonus.bmp");
     if (!bmp) {
         printf("Unable to load bitmap: %s\n", SDL_GetError());
         //return 1;
-    }
+    }*/
+    
+    this->bmp = loadImage("img/bonus.png");
 
     state = 1;
     //climbing = false;
@@ -263,7 +265,19 @@ void Bonus::updateState(std::string s){
         s2.clear();
         //ss.str(std::string());
     }
-
-
-
 };
+SDL_Surface* Bonus::loadImage(const char* path){
+	SDL_Surface*opt, *img;
+	img = IMG_Load(path);
+  if (!img) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+        return NULL;
+  }
+	opt = SDL_DisplayFormat(img);
+	SDL_FreeSurface(img);
+	SDL_SetColorKey( opt, SDL_SRCCOLORKEY, SDL_MapRGB(opt->format, 0, 255, 0));
+	return opt;
+}
+
+
+

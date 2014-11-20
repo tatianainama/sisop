@@ -15,6 +15,7 @@ int main(int argc, char ** argv){
 	int confd1, confd2; 
 	Network n;
 	int sockfd = n.nsocket();
+	int estado;
 
 	std::cout << "PARAMS\n" << argc;
 
@@ -117,7 +118,7 @@ int main(int argc, char ** argv){
         eng.update();
 	    		
         eng.afterUpdate();
-	printf("SERVIDOR PARTIDA7 \n");	    
+				printf("SERVIDOR PARTIDA7 \n");	    
         //eng.render();
 
   	    //std::cout << eng.gameStateToString();
@@ -138,6 +139,7 @@ int main(int argc, char ** argv){
 	    std::cout << "hago recv de comandos remotos----------------\n";
 	   	remoteCommandP1 = n.nreceive(confd1);
 	    remoteCommandP2 = n.nreceive(confd2);
+	  
 	    if (fps.get_ticks() < 1000 / FRAMES_PER_SECOND) {
 	        SDL_Delay( (1000 / FRAMES_PER_SECOND) - fps.get_ticks());
 	    }

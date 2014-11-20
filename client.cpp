@@ -55,7 +55,16 @@ int main(int argc, char ** argv){
 
         eng.stringToGameState(remoteGameState);
 	    std::cout << "ya recibi estado----------------\n";
-
+				
+				if(eng.state == 2){ //gano el player 1, negro
+					printf("gano player 1\n");
+					break;
+				}
+				
+				if(eng.state == 3) { //gano el player 2, mas negro
+					printf("gano player 2\n");
+					break;
+				}
         captureKeys(sockfd,n);
         eng.render();
         

@@ -11,13 +11,15 @@
 
 Floor::Floor(int x, int y, int orientation) {
 
+	/*
     this->bmp = SDL_LoadBMP("img/floor.bmp");
     if (!bmp) {
         printf("Unable to load bitmap: %s\n", SDL_GetError());
         //return 1;
     }
-
-
+*/	
+	this->bmp = loadImage("img/piso.png");
+		
 
     int dist = 90;
         //SDL_BlitSurface(this->bmp, 0, screen, &this->rect[i]);
@@ -106,6 +108,19 @@ std::string Floor::toString(){
     return ss.str();
 
 };
+
+SDL_Surface* Floor::loadImage(const char* path){
+	SDL_Surface*opt, *img;
+	img = IMG_Load(path);
+  if (!img) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+        return NULL;
+  }
+	opt = SDL_DisplayFormat(img);
+	SDL_FreeSurface(img);
+	SDL_SetColorKey( opt, SDL_SRCCOLORKEY, SDL_MapRGB(opt->format, 0, 255, 0));
+	return opt;
+}
 
 void Floor::updateState(std::string s){
    /* std::istringstream f(s);

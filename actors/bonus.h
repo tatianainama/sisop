@@ -3,6 +3,7 @@
 #include "../iactor.h"
 #include "../timer.h"
 #include <time.h>
+#include <SDL/SDL_image.h>
 
 #include <sstream>
 #include <string>
@@ -46,7 +47,7 @@ public:
 
     int getX();
     int getY();
-
+		SDL_Surface * loadImage(const char*);
     std::string toString();
     void updateState(std::string);
 

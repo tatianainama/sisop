@@ -12,11 +12,13 @@
 
 Stairs::Stairs(int x, int y, int orientation) {
 
-    this->bmp = SDL_LoadBMP("img/stairs.bmp");
+    /*this->bmp = SDL_LoadBMP("img/stairs.bmp");
     if (!bmp) {
         printf("Unable to load bitmap: %s\n", SDL_GetError());
         //return 1;
-    }
+    }*/
+    
+    this->bmp = loadImage("img/stairs.png");
 
     int startX = x;
     int startY = y;
@@ -119,6 +121,19 @@ std::string Stairs::toString(){
     return ss.str();
 
 };
+
+SDL_Surface* Stairs::loadImage(const char* path){
+	SDL_Surface*opt, *img;
+	img = IMG_Load(path);
+  if (!img) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+        return NULL;
+  }
+	opt = SDL_DisplayFormat(img);
+	SDL_FreeSurface(img);
+	SDL_SetColorKey( opt, SDL_SRCCOLORKEY, SDL_MapRGB(opt->format, 0, 255, 0));
+	return opt;
+}
 
 void Stairs::updateState(std::string s){
    /* std::stringstream f(s);

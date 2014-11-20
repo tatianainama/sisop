@@ -45,7 +45,7 @@ class Engine {
 		Stairs * stairs;
 		SideBar * sb;
 		Monkey * monkey;
-		int paulineCont = 0;
+		int state;
 		bool done;
 
 		Engine();
@@ -59,8 +59,10 @@ class Engine {
 		void free();
 
 		void applyCommand(std::string,int);
-
+		void setState();
+		void getState();
 		std::string gameStateToString();
 		void stringToGameState(std::string);
+		
 
 };

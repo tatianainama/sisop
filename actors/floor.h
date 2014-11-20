@@ -4,6 +4,7 @@
 #define _BARRIER 1
 #include "../iactor.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include <stdlib.h>
 #include <sstream>
 #include <string>
@@ -38,14 +39,14 @@ public:
     void blit();
     void update();
     void free();
-
+		
     void setDownOrientation();
     void setUpOrientation();
     int getState();
 
     std::string toString();
     void updateState(std::string s);
-
+		SDL_Surface * loadImage(const char*);
     SDL_Rect * getNextBaseFloor(int);
 
 };

@@ -59,7 +59,7 @@ Engine::Engine(){
 		
     bonus = new Bonus(GAME_W /2,112);
     
-    sb = new SideBar();
+    sb = new SideBar(); 
     
     stairs = new Stairs(120,49,1);
 
@@ -190,21 +190,22 @@ void Engine::update(){
     if(check_collision(this->s1->rect, this->pauline->rect)){
 				s1->newPauline();
 				sb->setScore1(s1->getPaulines());
-				s1->position(GAME_W / 2) - 100 , GAME_H-MARIO_Y);
+				
+				s1->position((GAME_W / 2) - 100 , GAME_H-MARIO_Y);
 		}
 		
 		if(s1->getPaulines() == WINNER){
-				//done = true;
+			state = 2; //gano el juego el player 1
 		}
 		
 		if(check_collision(this->s2->rect, this->pauline->rect)){
 				s2->newPauline();
-				sb->setScore1(s2->getPaulines());
-				s2->position(GAME_W /2)  + 100 ,GAME_H-MARIO_Y);
+				sb->setScore2(s2->getPaulines());
+				s2->position((GAME_W /2)  + 100 , GAME_H-MARIO_Y);
 		}
 		
 		if(s2->getPaulines() == WINNER){
-				//done = true;
+			state = 3;	//gano el juego el player 2
 		}
 		
 	 if(this->s2->movingDown){
@@ -690,7 +691,7 @@ void Engine::afterUpdate(){
             }
 			
 			if (check_collision(bonus->rect[j],s2->rect)) {
-                s2->position(GAME_W / 2+ 100 , GAME_H-MARIO_Y);
+                //s2->position(GAME_W / 2+ 100 , GAME_H-MARIO_Y);
             } 
         }
     }
@@ -705,7 +706,7 @@ std::string Engine::gameStateToString(){
         ss << (*it)->toString();
 
     }
-			ss<< "1";
+			ss<< state;
     //printf("\n\n");
     return ss.str();
     //printf("%s ",ss.str().c_str());
@@ -726,9 +727,11 @@ void Engine::stringToGameState(std::string sstate){
     }
     
     std::getline(f, segment);//el ultimo me indica el estado
-    printf(" /// ESTADO DEL JUEGO: %S ///", segment);
+    
+    this->state = atoi(segment.c_str()); //bastante negro
+    
+    std::cout<<" /// ESTADO DEL JUEGO:  ///"<<segment<< std::endl;
 };
-
 
 
 void Engine::render(){
