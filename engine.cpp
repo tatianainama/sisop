@@ -190,12 +190,23 @@ void Engine::update(){
     if(check_collision(this->s1->rect, this->pauline->rect)){
 				s1->newPauline();
 				sb->setScore1(s1->getPaulines());
-				s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
+				s1->position(GAME_W / 2) - 100 , GAME_H-MARIO_Y);
 		}
 		
 		if(s1->getPaulines() == WINNER){
-				done = true;
+				//done = true;
 		}
+		
+		if(check_collision(this->s2->rect, this->pauline->rect)){
+				s2->newPauline();
+				sb->setScore1(s2->getPaulines());
+				s2->position(GAME_W /2)  + 100 ,GAME_H-MARIO_Y);
+		}
+		
+		if(s2->getPaulines() == WINNER){
+				//done = true;
+		}
+		
 	 if(this->s2->movingDown){
         for (i=0; i<Stairs::SHIPS_QTY; i++) {
             if (check_collision(this->s2->rect,this->stairs->rect[i])) {
@@ -694,6 +705,7 @@ std::string Engine::gameStateToString(){
         ss << (*it)->toString();
 
     }
+			ss<< "1";
     //printf("\n\n");
     return ss.str();
     //printf("%s ",ss.str().c_str());
@@ -712,6 +724,9 @@ void Engine::stringToGameState(std::string sstate){
 
         (*it)->updateState(segment);
     }
+    
+    std::getline(f, segment);//el ultimo me indica el estado
+    printf(" /// ESTADO DEL JUEGO: %S ///", segment);
 };
 
 

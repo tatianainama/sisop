@@ -4,6 +4,9 @@
 
 void captureKeys(int,Network);
 bool done = false;
+Network n;
+int sockfd;
+
 int main(int argc, char ** argv){
 	Engine eng;
 	std::string remoteGameState;
@@ -12,27 +15,56 @@ int main(int argc, char ** argv){
 	eng.initSDL();
 
 
-	Network n;
-	int sockfd = n.nsocket();
-	n.nconnect(sockfd,"127.0.0.1",4545);
+	sockfd = n.nsocket();
+	n.nconnect(sockfd,argv[1],atoi(argv[2]));
 
 
+
+	std::string nombre = "juanj";
+
+	char nomBuf[200];
+
+	memset(&nomBuf, '1', sizeof(nomBuf));	
+	strcpy(nomBuf,nombre.c_str());
+
+	n.nsend(sockfd,nomBuf);
+
+
+
+	std::cout << "ya mande mi nombre----------------\n";
+	n.nreceive(sockfd);
+	std::cout << "ya recibi el nom del otro----------------\n";
 	while (!done) {
-
+		std::cout << "loop----------------\n";
         fps.start();
-
+	    
         /*eng.capturekeys();
         eng.update();	    		
         eng.afterUpdate();
 		*/
-        
-        remoteGameState = n.nreceive(sockfd);
-        eng.stringToGameState(remoteGameState);
-	    
 
+		std::cout << "receive estado----------------\n";                
+        remoteGameState = n.nreceive(sockfd);
+        std::cout << remoteGameState << " fin estado\n"; 
+
+        /*
+        comparar remoteGameState con "fin" "ganaste" "perdiste" o algo asi
+		si da true responder frente a ello
+		else:  eng.stringToGameState(remoteGameState);
+        */
+
+        eng.stringToGameState(remoteGameState);
+	    std::cout << "ya recibi estado----------------\n";
+
+        captureKeys(sockfd,n);
         eng.render();
         
-        captureKeys(sockfd,n);
+
+
+		/*pthread_t t;
+		pthread_create(&t, NULL, &C::hello_helper, &c);*/
+
+
 	    //Cap the frame rate
 	    if (fps.get_ticks() < 1000 / FRAMES_PER_SECOND) {
 	        SDL_Delay( (1000 / FRAMES_PER_SECOND) - fps.get_ticks() );
@@ -142,8 +174,7 @@ void captureKeys(int sockfd, Network n){
 			break;
 
 		}// end switch
-	}
-			       
+	}			       
 	n.nsend(sockfd,command);
 
 };

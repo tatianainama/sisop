@@ -47,6 +47,7 @@ class Engine {
 		Monkey * monkey;
 		int paulineCont = 0;
 		bool done;
+
 		Engine();
 		int run();
 		int initSDL();
@@ -57,7 +58,7 @@ class Engine {
 		void render();
 		void free();
 
-		void applyCommand(std::string);
+		void applyCommand(std::string,int);
 
 		std::string gameStateToString();
 		void stringToGameState(std::string);

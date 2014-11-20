@@ -88,25 +88,27 @@ void Network::nlisten(int listenfd,int port){
 };
 
 void Network::nsend(int connfd, std::string mens){
-	int tam = 140, flags = 0;
+
+	std::cout << "\ntamaño original: " << mens.length() << "\n";
+	int tam = 200, flags = 0;
 	char recBuff[tam];
 	memset(&recBuff, '1', sizeof(recBuff));	
 	strcpy(recBuff,mens.c_str());
-	//printf("enviando men:\n%s",recBuff);
+	printf("enviando men:\n%s",recBuff);
 	
-	//std::cout << "\nhago sen de tamanio " << sizeof(recBuff) << "\n";
+	std::cout << "\nhago sen de tamanio " << sizeof(recBuff) << "\n";
 
 	send(connfd, recBuff, tam,0);
-	//std::cout << "Envio ok\n";
+	std::cout << "Envio ok\n";
 };
 
 
 std::string Network::nreceive(int connfd){
 
 	int flags = 0;
-	char  buf[140];
+	char  buf[200];
 	memset(&buf, '0', sizeof(buf));
-	size_t toread = 140;
+	size_t toread = 200;
 	char  * bufptr =  &buf[0];
 	
 	//std::cout << "Recibiendo men";

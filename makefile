@@ -15,43 +15,46 @@ local: local.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o a
 	g++ -o local local.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o actors/mario.o actors/sidebar.o timer.o actors/stairs.o  -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
 
 
+servert: server_t.c
+	gcc -o servert  server_t.c -lpthread -lSDL -lSDL_image -lSDL_ttf -lm -lrt
+
 
 server.o: server.cpp
-	g++ -c server.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c server.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread -lrt
 
 client.o: client.cpp
-	g++ -c client.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c client.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
  
 local.o: local.cpp
-	g++ -c local.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread	
+	g++ -c local.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 
 engine.o: engine.cpp engine.h constants.h
-	g++ -c engine.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c engine.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 
 stairs.o: stairs.cpp stairs.h
-	g++ -c stairs.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c stairs.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 floor.o: floor.cpp floor.h
-	g++ -c floor.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c floor.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 bonus.o: bonus.cpp bonus.h
-	g++ -c bonus.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c bonus.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 iactor.o: iactor.cpp iactor.h
-	g++ -c iactor.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c iactor.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 mario.o: mario.cpp mario.h
 	g++ -c mario.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
 
 monkey.o: monkey.cpp monkey.h
-	g++ -c monkey.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c monkey.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 timer.o: timer.cpp timer.h
-	g++ -c timer.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c timer.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 sidebar.o: sidebar.cpp sidebar.h
-	g++ -c sidebar.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -c sidebar.cpp -lSDL -lSDLmain -lSDL_image -lSDL_ttf -lpthread
 
 
 clean:
