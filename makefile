@@ -1,7 +1,7 @@
 VPATH=/actors
 
 all: server.o client.o local.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o actors/mario.o timer.o actors/sidebar.o actors/stairs.o
-	g++ -o server server.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o actors/mario.o actors/sidebar.o timer.o actors/stairs.o  -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
+	g++ -o server server.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o actors/mario.o actors/sidebar.o timer.o actors/stairs.o  -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread -lrt
 	g++ -o client client.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o actors/mario.o actors/sidebar.o timer.o actors/stairs.o  -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
 	g++ -o local local.o engine.o actors/floor.o actors/bonus.o iactor.o actors/monkey.o actors/mario.o actors/sidebar.o timer.o actors/stairs.o  -lSDL -lSDLmain -lSDL_image -lSDL_ttf -pthread
 

@@ -45,7 +45,17 @@ class Engine {
 		Stairs * stairs;
 		SideBar * sb;
 		Monkey * monkey;
-		int state;
+		int state; //indica el estado del juego
+		/*
+		 * 0 -> pantalla de inicio
+		 * 1 -> jugando
+		 * 2 -> finalizacion por ganador
+		 * 3 -> finalizacion por desconexion
+		 */
+		
+		//variables para la pantalla de bienvenida/inicio
+		SDL_Surface *welcomeBackground;
+		
 		bool done;
 
 		Engine();
@@ -63,6 +73,7 @@ class Engine {
 		void getState();
 		std::string gameStateToString();
 		void stringToGameState(std::string);
+		SDL_Surface* loadImage(const char* );
 		
 
 };

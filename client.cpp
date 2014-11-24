@@ -13,12 +13,9 @@ int main(int argc, char ** argv){
 	Timer fps;
 		
 	eng.initSDL();
-
-
+	eng.render();
 	sockfd = n.nsocket();
 	n.nconnect(sockfd,argv[1],atoi(argv[2]));
-
-
 
 	std::string nombre = "juanj";
 
@@ -29,11 +26,11 @@ int main(int argc, char ** argv){
 
 	n.nsend(sockfd,nomBuf);
 
-
-
 	std::cout << "ya mande mi nombre----------------\n";
 	n.nreceive(sockfd);
 	std::cout << "ya recibi el nom del otro----------------\n";
+	eng.state = 1;
+
 	while (!done) {
 		std::cout << "loop----------------\n";
         fps.start();
@@ -87,6 +84,16 @@ int main(int argc, char ** argv){
     return 0;
 }
 
+int pantallaInicio (){
+	SDL_Surface *background = NULL;
+	SDL_Surface *message = NULL;
+	SDL_Surface *screen = NULL;
+	SDL_Event event;
+	TTF_Font *font = NULL;
+	SDL_Color textColor = {255,255,255};
+	
+	 
+}
 		
 	/*
 	* Mock de una respuesta del servidor

@@ -19,7 +19,7 @@ class Mario : public IActor {
 
 public:
     int speed;
-    int cantPau=0;
+    int cantPau;
     SDL_Rect source ,rect;
     SDL_Surface* img;
 

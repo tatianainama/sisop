@@ -14,7 +14,7 @@
 Mario::Mario(void): IActor(){
 			
     //printf("construct");
-    
+    this->cantPau = 0;
     this->speed = 10;
 
     this->onGround = true;

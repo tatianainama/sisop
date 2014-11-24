@@ -35,11 +35,16 @@ bool check_collision( SDL_Rect, SDL_Rect);
 
 
 Engine::Engine(){
+	
+	state = 0;
 
     done = false;
-
-	  std::cout << "Engine Constructor" << " \n";
-	  initSDL();
+		
+		
+		std::cout << "Engine Constructor" << " \n";
+		initSDL();
+    
+    this->welcomeBackground = loadImage("img/dk_final.png");
     bar1 = new Floor(0,50,1);
     
     s2 = new Mario();
@@ -91,12 +96,15 @@ int main( int argc, char** argv){
 
 int Engine::initSDL(){
 
-    if (SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
+    if (SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
         return 1;
 
     }
-		printf( "INIT OK\n" );
+	//Initialize SDL_ttf 
+	if( TTF_Init() == -1 ) { 
+		return 1; 
+	}
 
     // make sure SDL cleans up before exit
     atexit(SDL_Quit);
@@ -686,12 +694,12 @@ void Engine::afterUpdate(){
             }
 
             if (check_collision(bonus->rect[j],s1->rect)) {
-                //s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
+                s1->position(GAME_W / 2- 100 , GAME_H-MARIO_Y);
                 
             }
 			
 			if (check_collision(bonus->rect[j],s2->rect)) {
-                //s2->position(GAME_W / 2+ 100 , GAME_H-MARIO_Y);
+                s2->position(GAME_W / 2+ 100 , GAME_H-MARIO_Y);
             } 
         }
     }
@@ -728,7 +736,7 @@ void Engine::stringToGameState(std::string sstate){
     
     std::getline(f, segment);//el ultimo me indica el estado
     
-    this->state = atoi(segment.c_str()); //bastante negro
+   // this->state = atoi(segment.c_str()); //bastante negro
     
     std::cout<<" /// ESTADO DEL JUEGO:  ///"<<segment<< std::endl;
 };
@@ -736,12 +744,20 @@ void Engine::stringToGameState(std::string sstate){
 
 void Engine::render(){
 
-    SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
-
-    for(std::vector<IActor*>::iterator it = actors.begin(); it != actors.end(); ++it) {
-        (*it)->blit();
-    }
-    SDL_Flip(screen);    
+	switch(this->state){
+		case 0:	//pantalla de inicio
+				SDL_BlitSurface(welcomeBackground, NULL, screen, NULL);
+		break;
+		
+		case 1: //jugando
+				SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
+				for(std::vector<IActor*>::iterator it = actors.begin(); it != actors.end(); ++it) {
+						(*it)->blit();
+				}
+		break;
+	}
+	SDL_Flip(screen);
+        
 };
 
 
@@ -793,3 +809,20 @@ bool check_collision( SDL_Rect A, SDL_Rect B )
     //If none of the sides from A are outside B
     return true;
 };
+
+SDL_Surface * Engine::loadImage(const char* path){
+	SDL_Surface*opt, *img;
+	img = IMG_Load(path);
+	
+	if (!img) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+        return NULL;
+	}
+	
+	opt = SDL_DisplayFormat(img);
+	SDL_FreeSurface(img);
+	SDL_SetColorKey( opt, SDL_SRCCOLORKEY, SDL_MapRGB(opt->format, 0, 255, 0)); //seteo transparencia color 0,255,0 (verde)
+	return opt;
+
+}
+
